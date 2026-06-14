@@ -12,7 +12,7 @@ Description:
 - 本案例对应第 12 章里“把本地 Ollama 服务接进 LangChain”的最小落地示例。
 - 使用 `ChatOllama` 连接本机模型，无需云端 API Key；前提是本机已安装并启动 Ollama，且已经拉取过目标模型。
 - `base_url` 指向本机 Ollama 服务根地址（默认 `http://localhost:11434`），`model` 必须与 `ollama list` 里已存在的标签一致。
-- `invoke()` 返回的仍然是 LangChain 语义下的 `AIMessage`，因此和第 11 章云端模型调用一样，正文通常用 `response.content` 读取。
+- `invoke()` 返回的仍然是 LangChain 语义下的 `AIMessage`，因此和第 11 章云端模型调用一样，正文通常用 `result_with_parser.content` 读取。
 """
 
 from langchain_ollama import ChatOllama
@@ -32,11 +32,11 @@ model = ChatOllama(
 
 # ---------- 第二步：发一条消息并打印回复 ----------
 # invoke(问题) 会把输入发给本地模型，并返回一个 LangChain 的消息对象（通常是 AIMessage）。
-# 直接 print(response) 适合观察完整对象结构；业务里若只关心正文，一般读取 response.content。
+# 直接 print(result_with_parser) 适合观察完整对象结构；业务里若只关心正文，一般读取 result_with_parser.content。
 response = model.invoke("什么是LangChain，100字以内回答")
 print(response)
 
 """
 【可选】如果你只想看到模型回复的纯文字，可以这样取：
-print(response.content)
+print(result_with_parser.content)
 """

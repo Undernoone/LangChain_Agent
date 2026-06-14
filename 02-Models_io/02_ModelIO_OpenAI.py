@@ -31,7 +31,7 @@ response = client.chat.completions.create(
 print("原生回复：",response)
 print("原生回复格式：",type(response))
 # OpenAI SDK 的返回值需要按原生结构逐层取值：
-# response -> choices[0] -> message -> content
+# result_with_parser -> choices[0] -> message -> content
 print(response.choices)
 print(response.choices[0].message.content)
 # 可以看出输出str嵌套的非常深，体现出了LangChain的方便
@@ -44,11 +44,11 @@ client = OpenAI(
     base_url="https://api.deepseek.com",
 )
 
-response = client.chat.completions.create(
+result_with_parser = client.chat.completions.create(
     model="deepseek-v4-flash",
     messages=[{"role": "user", "content": "你是谁"}],
 )
-print(response.choices[0].message.content)  # 
+print(result_with_parser.choices[0].message.content)  # 
 
 ========== 2. LangChain==========
 llm = ChatOpenAI(
@@ -57,6 +57,6 @@ llm = ChatOpenAI(
     base_url="https://api.deepseek.com",
 )
 
-response = llm.invoke("你是谁")
-print(response.content)
+result_with_parser = llm.invoke("你是谁")
+print(result_with_parser.content)
 '''
